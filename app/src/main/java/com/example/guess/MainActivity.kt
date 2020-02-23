@@ -17,6 +17,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Log.d(TAG,"secret:" + secretNumber.secret)
     }
+
+
     fun check(view:View){
        var n = ed_number.text.toString().toInt()
         println("number${n}")
