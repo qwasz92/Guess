@@ -1,5 +1,7 @@
 package com.example.guess
 
+import android.app.Activity
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_record2.*
@@ -13,5 +15,17 @@ class Record2Activity : AppCompatActivity() {
         setContentView(R.layout.activity_record2)
         val count = intent.getIntExtra("COUNTER",-1)
         tv_counter.setText(count.toString())
+
+        //OnClickListener
+        bt_save.setOnClickListener { view ->
+            val nick=ed_nickname.text.toString()
+            getSharedPreferences("guess", Context.MODE_PRIVATE)
+                .edit()
+                .putInt("REC_COUNTER",count)
+                .putString("REC_NICKNAME",nick)
+                .apply()
+            setResult(Activity.RESULT_OK)
+            finish()
+        }
     }
 }
