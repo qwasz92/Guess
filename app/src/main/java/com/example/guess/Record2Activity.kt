@@ -30,12 +30,12 @@ class Record2Activity : AppCompatActivity() {
                 .apply()
             //inesert to Room
             //Room test
-            val database = Room.databaseBuilder(this, GameDatabase::class.java,"game.db").build()
-            val record = Record(nick,count)
-            Thread(){database.recordDao().insert(record)
+            GameDatabase.getInstance(this)
+            Thread(){GameDatabase.getInstance(this)?.recordDao()?.
+                insert(Record(nick,count))
             }.start()
 
-            var intent = Intent()
+            val intent = Intent()
             intent.putExtra("NICK",nick)
             setResult(Activity.RESULT_OK,intent)
             finish()
