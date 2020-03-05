@@ -42,11 +42,11 @@ class MaterialActivity : AppCompatActivity() {
         Log.d(TAG, "data $count/$nick");
 
         //Room read  test
-        AsyncTask.execute { val list = GameDatabase.getInstance(this)?.recordDao()?.getAll()
+/*        AsyncTask.execute { val list = GameDatabase.getInstance(this)?.recordDao()?.getAll()
             list?.forEach{
                 Log.d(TAG, "record: ${it.nickname} ${it.counter} ");
             }
-        }
+        }*/
     }
 
     private fun replay() {

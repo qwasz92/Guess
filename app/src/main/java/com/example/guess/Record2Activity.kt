@@ -11,12 +11,20 @@ import com.example.guess.data.Record
 import kotlinx.android.synthetic.main.activity_record2.*
 import kotlinx.android.synthetic.main.content_material.*
 import kotlinx.android.synthetic.main.content_material.tv_counter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-class Record2Activity : AppCompatActivity() {
-
+class Record2Activity : AppCompatActivity(),CoroutineScope {
+    private lateinit var job: Job
+    override val coroutineContext: CoroutineContext
+        get() =job+Dispatchers.Main
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_record2)
+        job=Job()
         val count = intent.getIntExtra("COUNTER",-1)
         tv_counter.setText(count.toString())
 
@@ -29,16 +37,19 @@ class Record2Activity : AppCompatActivity() {
                 .putString("REC_NICKNAME",nick)
                 .apply()
             //inesert to Room
-            //Room test
-            GameDatabase.getInstance(this)
-            Thread(){GameDatabase.getInstance(this)?.recordDao()?.
-                insert(Record(nick,count))
-            }.start()
+            launch {
+                GameDatabase.getInstance(this@Record2Activity)?.recordDao()?.insert(Record(nick,count))
+            }
 
             val intent = Intent()
             intent.putExtra("NICK",nick)
             setResult(Activity.RESULT_OK,intent)
             finish()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 }

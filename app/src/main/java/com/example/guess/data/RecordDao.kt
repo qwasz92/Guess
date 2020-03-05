@@ -5,11 +5,11 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
-@Dao
+    @Dao
 interface RecordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(record:Record)
+   suspend fun insert(record:Record)
 
     @Query(value = "select * from record")
-    fun getAll():List<Record>
+    suspend fun getAll():List<Record>
 }
